@@ -2,20 +2,23 @@
 
 DSH 客户端的基础纪律技能包。装到任何一台机器上，模型就带上：**编码先测后写**、**结论分三档核实**、**受控系统诊断方法**。
 
-## 新机器一条命令
+## 新机器两条命令
 
 ```powershell
-powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/matt12121967/dsh-skills/main/install.ps1 | iex"
+irm https://raw.githubusercontent.com/matt12121967/dsh-skills/main/install.ps1 -OutFile $env:TEMP\dsh-install.ps1
+powershell -ExecutionPolicy Bypass -File $env:TEMP\dsh-install.ps1
 ```
 
-装完新开一个 DSH 会话，技能目录里应出现三条。可以指定：
+装完新开一个 DSH 会话，技能目录里应出现三条。第二行可以加参数：
 
 ```powershell
 # 只装一条
-... | iex"   →    -Only windows-encoding-discipline
+powershell -ExecutionPolicy Bypass -File $env:TEMP\dsh-install.ps1 -Only windows-encoding-discipline
 # 覆盖已有
-... -Force
+powershell -ExecutionPolicy Bypass -File $env:TEMP\dsh-install.ps1 -Force
 ```
+
+（不要用 `irm ... | iex`：管道会把脚本按行拆开，`param()` 块直接语法错误。本仓库实测踩过。）
 
 网络访问 GitHub 慢或被拦时：下载仓库 zip，解压后在该目录运行 `powershell -ExecutionPolicy Bypass -File .\install.ps1`，本地装，效果一样。
 
