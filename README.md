@@ -7,22 +7,21 @@ DSH 客户端的基础纪律技能包。装到任何一台机器上，模型就�
 在 PowerShell 里整行粘贴（注意是**同一行**）：
 
 ```powershell
-irm https://raw.githubusercontent.com/matt12121967/dsh-skills/main/install.ps1 -OutFile $env:TEMP\dsh-install.ps1; powershell -ExecutionPolicy Bypass -File $env:TEMP\dsh-install.ps1
+$z="$env:TEMP\dsh-skills.zip"; irm https://codeload.github.com/matt12121967/dsh-skills/zip/refs/heads/main -OutFile $z; Expand-Archive $z "$env:TEMP\dsh-skills-src" -Force; powershell -ExecutionPolicy Bypass -File "$env:TEMP\dsh-skills-src\dsh-skills-main\install.ps1"
 ```
 
-装完新开一个 DSH 会话，技能目录里应出现五条，另外 `$env:DSH_HOME\tools\lessons.ps1` 会被放好。想改参数就拆成两行：
+装完新开一个 DSH 会话，技能目录里应出现五条，另外 `$env:DSH_HOME\tools\lessons.ps1` 会被放好。
+
+想改参数就再跑一次已解压的安装脚本：
 
 ```powershell
-irm https://raw.githubusercontent.com/matt12121967/dsh-skills/main/install.ps1 -OutFile $env:TEMP\dsh-install.ps1
-# 只装一条
-powershell -ExecutionPolicy Bypass -File $env:TEMP\dsh-install.ps1 -Only windows-encoding-discipline
-# 覆盖已有
-powershell -ExecutionPolicy Bypass -File $env:TEMP\dsh-install.ps1 -Force
+powershell -ExecutionPolicy Bypass -File "$env:TEMP\dsh-skills-src\dsh-skills-main\install.ps1" -Only windows-encoding-discipline
+powershell -ExecutionPolicy Bypass -File "$env:TEMP\dsh-skills-src\dsh-skills-main\install.ps1" -Force
 ```
 
-（不要用 `irm ... | iex`：管道会把脚本按行拆开，`param()` 块直接语法错误。本仓库实测踩过。）
+（为什么不用 `irm install.ps1 | iex`：管道会把脚本按行拆开，`param()` 块直接语法错误。为什么不用 `irm install.ps1 -OutFile`：raw.githubusercontent 有 CDN 缓存，刚推送后几分钟内可能取到旧版；codeload 的 zip 是现生成的，不受影响。）
 
-网络访问 GitHub 慢或被拦时：下载仓库 zip，解压后在该目录运行 `powershell -ExecutionPolicy Bypass -File .\install.ps1`，本地装，效果一样。
+网络访问 GitHub 慢或被拦时：下载仓库 zip 拷过去，解压后在该目录运行 `powershell -ExecutionPolicy Bypass -File .\install.ps1`，效果一样。
 
 ## 装了什么
 
