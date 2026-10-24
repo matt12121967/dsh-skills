@@ -47,10 +47,15 @@ function Get-SkillsDir {
 
 $src = Get-SkillsDir
 $files = Get-ChildItem $src -Filter *.md | Sort-Object Name
+$toolsSrc = Join-Path (Split-Path $src -Parent) 'tools'
 
 if ($List) {
     Write-Host "available:"
     $files | ForEach-Object { Write-Host ("  " + [IO.Path]::GetFileNameWithoutExtension($_.Name)) }
+    if (Test-Path $toolsSrc) {
+        Write-Host "tools:"
+        Get-ChildItem $toolsSrc -Filter *.ps1 | ForEach-Object { Write-Host ("  " + $_.Name) }
+    }
     return
 }
 
@@ -77,3 +82,13 @@ foreach ($f in $files) {
 Write-Host ""
 Write-Host ("target: " + $Target)
 Write-Host ("count:  " + $wanted.Count)
+
+# tools (lessons.ps1) go to <dsh_home>\tools so skills can call them by absolute path
+if (Test-Path $toolsSrc) {
+    $toolsDst = Join-Path $dshHome 'tools'
+    if (-not (Test-Path $toolsDst)) { New-Item -ItemType Directory -Path $toolsDst -Force | Out-Null }
+    Get-ChildItem $toolsSrc -Filter *.ps1 | ForEach-Object {
+        Copy-Item $_.FullName (Join-Path $toolsDst $_.Name) -Force
+        Write-Host ("tool: " + $_.Name + " -> " + $toolsDst) -ForegroundColor Green
+    }
+}
