@@ -5,7 +5,7 @@ DSH 客户端的基础纪律技能包。装到任何一台机器上，模型就�
 ## 新机器一条命令
 
 ```powershell
-powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/__OWNER__/dsh-skills/main/install.ps1 | iex"
+powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/matt12121967/dsh-skills/main/install.ps1 | iex"
 ```
 
 装完新开一个 DSH 会话，技能目录里应出现三条。可以指定：

@@ -20,7 +20,7 @@ param(
 $ErrorActionPreference = 'Stop'
 
 # Filled in after the repo exists. Override with -Repo owner/name.
-$DefaultRepo = '__OWNER__/dsh-skills'
+$DefaultRepo = 'matt12121967/dsh-skills'
 if (-not $Repo) { $Repo = $DefaultRepo }
 
 function Get-SkillsDir {
