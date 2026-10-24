@@ -23,6 +23,7 @@ powershell -ExecutionPolicy Bypass -File .\probe-encoding.ps1
 | `Get-Content` 读 UTF-8 文件出问号方块 | 5.1 默认按当前代码页解码 | 永远显式 `-Encoding utf8` |
 | Python 报 `UnicodeEncodeError: cp1252/gbk` | stdout 编码取自控制台，不是 UTF-8 | 先 `$env:PYTHONIOENCODING='utf-8'`，或脚本内 `sys.stdout.reconfigure(encoding='utf-8')` |
 | 控制台里中文正常、写进文件却坏（或反之） | 显示解码与文件字节是两回事 | 读回字节看 BOM 和码点，别看屏幕 |
+| `.ps1` 报 `UnexpectedToken` 或莫名语法错误，文件里只有中文注释或正则 | 5.1 按 ANSI 读**无 BOM 的 .ps1**，中文字节被解成乱码 | 源码保持纯 ASCII，中文用 `\uXXXX` 转义或运行时拼接 |
 | 老程序（cscript、cmd 批处理、注册表值）读中文出错 | 它们按 ANSI/OEM 解码 | 这类文件内容强制纯 ASCII |
 
 ## 3. 写文件的默认动作
