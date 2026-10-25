@@ -1,6 +1,6 @@
 # dsh-skills
 
-DSH 客户端的基础纪律技能包。装到任何一台机器上，模型就带上：**编码先测后写**、**改动只动该动的**、**结论分三档核实**、**教训自动入库并按期复习**、**受控系统诊断方法**。
+DSH 客户端的基础纪律技能包。装到任何一台机器上，模型就带上：**编码先测后写**、**改动只动该动的**、**结论分三档核实**、**教训自动入库并按期复习**、**受控系统诊断方法**、**卡顿先定层再定因**、**先检索再自研**。
 
 ## 新机器一条命令
 
@@ -10,7 +10,7 @@ DSH 客户端的基础纪律技能包。装到任何一台机器上，模型就�
 $z="$env:TEMP\dsh-skills.zip"; irm https://codeload.github.com/matt12121967/dsh-skills/zip/refs/heads/main -OutFile $z; Expand-Archive $z "$env:TEMP\dsh-skills-src" -Force; powershell -ExecutionPolicy Bypass -File "$env:TEMP\dsh-skills-src\dsh-skills-main\install.ps1"
 ```
 
-装完新开一个 DSH 会话，技能目录里应出现五条，另外 `$env:DSH_HOME\tools\lessons.ps1` 会被放好。
+装完新开一个 DSH 会话，技能目录里应出现七条，另外 `$env:DSH_HOME\tools\lessons.ps1` 会被放好。
 
 想改参数就再跑一次已解压的安装脚本：
 
@@ -31,6 +31,8 @@ powershell -ExecutionPolicy Bypass -File "$env:TEMP\dsh-skills-src\dsh-skills-ma
 | `verify-before-claim` | 幻觉与「没实测就下结论」：每句话分跑过/读过/推测，外部事实查原文，判定「被拦」要有对照 |
 | `lessons-library` | 同类错误反复犯：任务收尾自动入库，新会话查到期复习，条目带 ID 与 SM-2 日期 |
 | `engineering-cybernetics` | 钱学森《工程控制论》方法：建模→判稳→定结构→配指标→覆盖不确定性→验证；诊断「反复出错」的闭环 |
+| `layer-before-cause` | 联网软件「卡/慢/时好时坏」：TTFB 分段 + 换网络对照 + 服务端状态，先定层再说原因；无层判定不改配置，两次修复无效全回退 |
+| `search-before-build` | 「做个 X」先检索：本地 / 生态目录 / 通用检索三行记录 + 完全匹配/部分匹配/没有的结论，再决定复用还是自研 |
 
 ## 教训库
 
