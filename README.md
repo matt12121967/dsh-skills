@@ -1,6 +1,6 @@
 # dsh-skills
 
-DSH 客户端的基础纪律技能包。装到任何一台机器上，模型就带上：**编码先测后写**、**改动只动该动的**、**结论分三档核实**、**教训自动入库并按期复习**、**受控系统诊断方法**、**卡顿先定层再定因**、**先检索再自研**。
+DSH 客户端的基础纪律技能包。装到任何一台机器上，模型就带上：**编码先测后写**、**改动只动该动的**、**结论分三档核实**、**教训自动入库并按期复习**、**受控系统诊断方法**、**卡顿先定层再定因**、**先检索再自研**、**脚本先过闸门再执行**。
 
 ## 新机器一条命令
 
@@ -10,7 +10,7 @@ DSH 客户端的基础纪律技能包。装到任何一台机器上，模型就�
 $z="$env:TEMP\dsh-skills.zip"; irm https://codeload.github.com/matt12121967/dsh-skills/zip/refs/heads/main -OutFile $z; Expand-Archive $z "$env:TEMP\dsh-skills-src" -Force; powershell -ExecutionPolicy Bypass -File "$env:TEMP\dsh-skills-src\dsh-skills-main\install.ps1"
 ```
 
-装完新开一个 DSH 会话，技能目录里应出现七条，另外 `$env:DSH_HOME\tools\lessons.ps1` 会被放好。
+装完新开一个 DSH 会话，技能目录里应出现八条，另外 `$env:DSH_HOME\tools\` 会被放好 `lessons.ps1`、`check-script.ps1`、`elevate.ps1`。
 
 想改参数就再跑一次已解压的安装脚本：
 
@@ -33,6 +33,19 @@ powershell -ExecutionPolicy Bypass -File "$env:TEMP\dsh-skills-src\dsh-skills-ma
 | `engineering-cybernetics` | 钱学森《工程控制论》方法：建模→判稳→定结构→配指标→覆盖不确定性→验证；诊断「反复出错」的闭环 |
 | `layer-before-cause` | 联网软件「卡/慢/时好时坏」：TTFB 分段 + 换网络对照 + 服务端状态，先定层再说原因；无层判定不改配置，两次修复无效全回退 |
 | `search-before-build` | 「做个 X」先检索：本地 / 生态目录 / 通用检索三行记录 + 完全匹配/部分匹配/没有的结论，再决定复用还是自研 |
+| `script-safety-gate` | 脚本跑之前先拦：纯 ASCII、语法、`-f` 占位符个数三项静态检查；提权一律 pwsh 7 + 隐藏窗口；编码乱码、格式串差一个、控制台选择冻结三类失效都有判别方法和修法 |
+
+## 脚本闸门工具
+
+`tools\check-script.ps1` 和 `tools\elevate.ps1` 会随技能一起放到 `$env:DSH_HOME\tools`：
+
+```powershell
+pwsh -File tools\check-script.ps1 .\deploy.ps1                  # ASCII + 语法 + -f 占位符个数
+pwsh -File tools\elevate.ps1 -Script .\deploy.ps1 -CheckOnly    # 只做静态检查，不提权
+pwsh -File tools\elevate.ps1 -Script .\deploy.ps1               # 提权运行，检查不过直接拒绝
+```
+
+`elevate.ps1` 只找 `pwsh.exe`（PowerShell 7），找不到就报错退出，不会悄悄退回 5.1。检查器是 AST 级判断，不是正则猜——`"#{0} {1} {2} BusType={3}" -f $a,$b,$c` 这种语法完全合法、运行时才炸的写法会被静态拦下。
 
 ## 教训库
 
