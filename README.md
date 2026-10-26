@@ -10,7 +10,7 @@ DSH 客户端的基础纪律技能包。装到任何一台机器上，模型就�
 $z="$env:TEMP\dsh-skills.zip"; irm https://codeload.github.com/matt12121967/dsh-skills/zip/refs/heads/main -OutFile $z; Expand-Archive $z "$env:TEMP\dsh-skills-src" -Force; powershell -ExecutionPolicy Bypass -File "$env:TEMP\dsh-skills-src\dsh-skills-main\install.ps1"
 ```
 
-装完新开一个 DSH 会话，技能目录里应出现八条，另外 `$env:DSH_HOME\tools\` 会被放好 `lessons.ps1`、`check-script.ps1`、`elevate.ps1`。
+装完新开一个 DSH 会话，技能目录里应出现 42 条（8 条核心纪律 + 34 条通用流程），另外 `$env:DSH_HOME\tools\` 会被放好 `lessons.ps1`、`check-script.ps1`、`elevate.ps1`。
 
 想改参数就再跑一次已解压的安装脚本：
 
@@ -47,6 +47,21 @@ pwsh -File tools\elevate.ps1 -Script .\deploy.ps1               # 提权运行�
 
 `elevate.ps1` 只找 `pwsh.exe`（PowerShell 7），找不到就报错退出，不会悄悄退回 5.1。检查器是 AST 级判断，不是正则猜——`"#{0} {1} {2} BusType={3}" -f $a,$b,$c` 这种语法完全合法、运行时才炸的写法会被静态拦下。
 
+## 通用流程技能（34 条）
+
+除核心纪律外，仓库还收了 34 条通用流程技能，不需要的可以 `-Only` 挑着装：
+
+```
+ask-matt, code-review, codebase-design, coding-discipline, decision-preflight,
+diagnosing-bugs, domain-modeling, grill-me, grill-with-docs, grilling, handoff,
+implement, implement-spec, improve-codebase-architecture, planning-with-files,
+pr, prototype, react-best-practices, research, retro, setup-matt-pocock-skills,
+superpowers-workflow, tdd, teach, to-questionnaire, to-spec, to-tickets, triage,
+wait-what, wayfinder, web-design-guidelines, wizard, writing-for-agents, writing-guidelines
+```
+
+其中一部分改写自公开资料或第三方技能包，来源与署名见 [THIRD-PARTY.md](THIRD-PARTY.md)。
+
 ## 教训库
 
 每台机器各有一份，装完自动在本地生长，不需要联网同步：
@@ -72,7 +87,7 @@ powershell -ExecutionPolicy Bypass -File .\probe-encoding.ps1
 ## 这个仓库故意不放什么
 
 - **本机事实**：代理配置、VPS 地址、服务名、本机解释器路径。换台机器就不成立，还会制造错误结论。
-- **第三方技能包**：版权与署名不属于我，要装请回原仓库。
+- **第三方技能包的原文**：通用流程技能的部分条目改写自公开资料，署名与来源见 [THIRD-PARTY.md](THIRD-PARTY.md)；原作者若希望调整署名或移除，开 issue。
 - **教训库**：里面混有机器状态和过程中的敏感信息。
 
 要带机器特定的东西，用私有仓库或 U 盘，不要放这里。
