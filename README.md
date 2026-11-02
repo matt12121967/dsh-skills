@@ -84,6 +84,22 @@ powershell -ExecutionPolicy Bypass -File .\probe-encoding.ps1
 
 它输出四行本机事实（PS 版本、chcp、控制台编码、Python stdout 编码），顺带复现 Python 输出中文的失败。不同机器这几行经常不同，所以技能里写的是「按测到的值选」，不是「一律 UTF-8」。
 
+## 自动发布（2026-11-02 起）
+
+这台机器每周二例行维护后，会用 `store-diag/publish-skills.py` 把**本机更新的同名通用技能**同步进 `skills/`，跑一次敏感信息扫描（公网 IP / token / 私钥 / 本机路径），通过后自动 commit 并 push。
+
+- 自动发布的只有「仓库里已存在、且本机版本更新」的通用技能。
+- 机器专属技能（本机路径 / 代理 / VPS / 教训库工具等 9 条）永不自动发布；`search-before-build.md` 是仓库侧策展版，不自动覆盖。
+- 新增通用技能是否收进公开包仍由人工决定。
+- 推送凭据存放在 Windows 凭据管理器（`git:https://github.com`），不落文件、不进仓库。
+
+手动补发 / 只看计划：
+
+```powershell
+python ...\store-diag\publish-skills.py            # 同步 + 扫描 + 提交 + 推送
+python ...\store-diag\publish-skills.py --dry-run  # 只打印计划
+```
+
 ## 这个仓库故意不放什么
 
 - **本机事实**：代理配置、VPS 地址、服务名、本机解释器路径。换台机器就不成立，还会制造错误结论。
