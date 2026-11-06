@@ -2,6 +2,8 @@
 
 DSH 客户端的基础纪律技能包。装到任何一台机器上，模型就带上：**编码先测后写**、**改动只动该动的**、**结论分三档核实**、**教训自动入库并按期复习**、**受控系统诊断方法**、**卡顿先定层再定因**、**先检索再自研**、**脚本先过闸门再执行**。
 
+> 验证环境：Windows 11 + DSH 桌面端 **0.2.2-rc.1**（2026-11-06 复测）。
+
 ## 新机器一条命令
 
 在 PowerShell 里整行粘贴（注意是**同一行**）：
@@ -83,6 +85,16 @@ powershell -ExecutionPolicy Bypass -File .\probe-encoding.ps1
 ```
 
 它输出四行本机事实（PS 版本、chcp、控制台编码、Python stdout 编码），顺带复现 Python 输出中文的失败。不同机器这几行经常不同，所以技能里写的是「按测到的值选」，不是「一律 UTF-8」。
+
+## 配套插件（不在本仓库）
+
+当前机器验证过的**插件式技能包**——走 npm / dshmarket 分发，不属于本仓库的 42 条技能：
+
+- **`superpowers-dsh` 0.4.0**（MIT，移植自 [obra/superpowers](https://github.com/obra/superpowers) v7.0.1）——15 条工程流程技能：`brainstorming`、`writing-plans`、`executing-plans`、`test-driven-development`、`systematic-debugging`、`requesting-code-review`、`receiving-code-review`、`subagent-driven-development`、`dispatching-parallel-agents`、`using-git-worktrees`、`finishing-a-development-branch`、`verification-before-completion`、`writing-skills`、`using-superpowers`、`diagnosing-superpowers`。
+  - 桌面端：在 DSH 插件市场（dshmarket）搜索安装 `superpowers-dsh`，装完 `skill` 目录直接可见（热加载，无需重启）。
+  - web / CLI：`npx @deepseek-ai/dsh plugin --profile web add superpowers-dsh`
+  - 注意：这些技能文件在插件包的 `skills\<name>\SKILL.md`，**不在** `$env:DSH_HOME\skills`——「技能目录里看不到」不等于没装，看 `skill` 目录/市场 installed 列表才准。
+- **REA（Reverse Engineer Anything）** 是宿主级 MCP（本地二进制/APK/JS 逆向分析，229 个工具），带本机路径与工具链配置，不随本仓库分发。
 
 ## 自动发布（2026-11-02 起）
 
